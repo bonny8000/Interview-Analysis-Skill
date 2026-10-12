@@ -6,6 +6,18 @@ It is useful after fieldwork and before product decisions, when a team has a pil
 
 Output is written in Traditional Chinese (繁體中文). Input can be Mandarin transcripts in Traditional or Simplified characters, including mixed Chinese–English speech.
 
+## Primary deliverable: a sentence-level coding matrix
+
+Full analysis produces `RawData.csv`, `Combine Data.csv`, `Subtheme Summary.csv`, `Codebook.csv`, and `interview-analysis.md`. The main matrix begins with:
+
+`participant | sentence_id | sentence | Initial Code | Sub Theme | Theme | Categories`
+
+Each row represents one participant meaning unit assigned to one initial code, not a participant/topic summary. RawData preserves source order and review status; Combine Data groups the same units by the coding hierarchy. Multi-coded sentences keep the same ID and wording. Counts distinguish coding rows, distinct sentences, and distinct participants.
+
+Read [the output contract](references/sentence-level-deliverables.md) and [the synthetic matrix example](examples/sentence-matrix-example.md). A supplied spreadsheet example guides structure; its theoretical categories are not silently imposed on a different study. The reference file stays read-only.
+
+Validate relationships and counts with `python scripts/validate_analysis.py <output-directory>`. This does not validate speaker attribution or the quality of qualitative interpretation.
+
 ## What this skill can achieve
 
 - Clean raw transcripts before any analysis: fix speaker misattribution (orphaned acknowledgments, misplaced questions), correct homophone and mangled-English ASR errors against a project glossary, convert Simplified to Traditional characters without changing the speaker's words, remove ASR hallucinations, de-identify, and number every turn so each quote traces back to its exact source. This step can also run on its own.
@@ -23,7 +35,7 @@ Output is written in Traditional Chinese (繁體中文). Input can be Mandarin t
 
 First, a `cleaned/` folder: one analysis-ready transcript per interview, each ending with a cleaning log, plus an overview listing the glossary, de-identification rules, topic list, and any items that need your confirmation. With several transcripts, an `interview-table.csv` is built alongside it, one row per participant and topic. A cleaning-only run stops here.
 
-Then a single Markdown document, `interview-analysis.md`, containing:
+Full analysis then produces the four CSVs defined above, plus `interview-analysis.md`, containing:
 
 1. **Analysis goal and method** — the research question, the track taken, sample size, saturation status, and limitations.
 2. **A codebook** — the thematic coding table, with counts and quotes.
@@ -46,13 +58,14 @@ flowchart LR
     table --> code
     multi -->|no| code["Code → themes<br/>→ segments"]
     code --> scan["Counter-evidence<br/>scan"]
-    scan --> report["interview-analysis.md"]
+    scan --> matrix["RawData + Combine Data<br/>Codebook + Subtheme Summary"]
+    matrix --> report["interview-analysis.md"]
 ```
 
 | Mode | How to trigger it | What you get |
 |---|---|---|
-| Full analysis | Default for a single transcript | `cleaned/` and `interview-analysis.md` |
-| One-by-one review | Default for two or more transcripts from the same project | After each transcript, the skill stops for your confirmation before adding its rows to `interview-table.csv`. When all are confirmed, it asks whether to continue to analysis |
+| Full analysis | Default for a single transcript | `cleaned/`, RawData, Combine Data, subtheme summary, codebook, and the report |
+| One-by-one review | Default for two or more transcripts from the same project | Review each cleaned transcript. The optional `interview-table.csv` is a review aid; when full analysis was requested, continue into sentence-level coding after review |
 | Cleaning only | Say 「先清理」 or 「只要清理」 | `cleaned/`, plus `interview-table.csv` if there are several transcripts |
 | Straight through | Say 「直接跑完」 | No review stops; uncertain items are marked and listed under limitations |
 
@@ -136,16 +149,24 @@ The skill is then available as `interview-analysis` in every session. To update,
 ├── CHANGELOG.md                              # Version history
 ├── LICENSE                                   # MIT license
 ├── references/
+│   ├── sentence-level-deliverables.md         # Unit, hierarchy, provenance, and CSV contracts
 │   ├── transcript-cleaning.md                # Step 1: the six cleaning steps
 │   ├── review-workflow.md                    # One-by-one review and the consolidated table
 │   ├── coding-method.md                      # Open, axial, and selective coding; saturation
 │   ├── code-catalog.md                       # Code dimensions and the shared failure-mode vocabulary
 │   └── insight-quality-rules.md              # Evidence strength, counter-evidence, and quote rules
 ├── templates/
+│   ├── RawData.template.csv                  # Source-order meaning units and review status
+│   ├── Combine Data.template.csv             # One meaning unit × one initial code
+│   ├── Codebook.template.csv                 # Definitions and canonical hierarchy
+│   ├── Subtheme Summary.template.csv         # Coding rows, distinct units, and participants
 │   ├── cleaned-transcript.template.md        # Cleaned transcript and cleaning overview
 │   ├── interview-table.template.csv          # Consolidated table header (UTF-8 with BOM)
 │   └── interview-analysis.template.md        # Analysis report scaffold
+├── scripts/
+│   └── validate_analysis.py                  # Cross-file consistency and counts (Python 3.9+)
 └── examples/
+    ├── sentence-matrix-example.md            # Synthetic multi-code and counting example
     └── worked-example.md                     # Raw ASR export → cleaned transcript → insights
 ```
 
@@ -155,6 +176,8 @@ A strong result should make it possible to answer:
 
 - Can every quote be found, word for word, in the cleaned transcript under its turn number?
 - What changed during cleaning, and was anything removed that might have mattered?
+- Can every coded meaning unit be found in both RawData and Combine Data with the same ID and wording?
+- Does each initial code have a consistent subtheme/theme mapping, and do summary counts recompute from the matrix?
 - How many people said this — not how many times was it said?
 - Where do participants disagree, and who said the opposite?
 - Is this something they did, or only something they said they would do?

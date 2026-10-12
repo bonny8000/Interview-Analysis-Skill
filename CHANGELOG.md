@@ -1,5 +1,14 @@
 # Changelog — Interview Analysis
 
+## [2.0.0] - 2026-10-12
+### Changed
+- 完整分析主交付改為逐句／意義單位矩陣；每人×話題摘要僅作可選審閱輔助，不得替代原始編碼資料。
+- 明確區分 sentence、Initial Code、Sub Theme、Theme 與 Categories；禁止無指示複製參考研究的理論框架。
+- 多碼採長表；RawData／Combine Data 同句同ID同文字；計數分開列出編碼列、distinct句子與人數。
+- 直接跑完模式保留未明說話者待審，不把不確定發言計入受訪者人數。
+### Added
+- 四張CSV的欄位範本、逐句交付契約、虛構矩陣示例、關聯及計數驗證工具。
+
 ## [1.2.0] - 2026-10-12
 ### Added
 - 逐份審閱模式（同一專案多份逐字稿時預設）：每份清理完停下來與使用者確認，確認後寫進訪談彙整表 `interview-table.csv`（每位受訪者 × 每個話題一列；UTF-8 with BOM，Excel 可直接開，也可匯入 Google 試算表或 Notion）。
