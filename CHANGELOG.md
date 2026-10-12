@@ -1,5 +1,15 @@
 # Changelog — Interview Analysis
 
+## [3.0.0] - 2026-10-12
+### Changed
+- Require source-first, complete dialogue review; ban length-based relevance/speaker judgments and curated-excerpt expansion as a substitute for review.
+- Interpret short answers with adjacent questions; retain prompted confirmations without attributing moderator claims as spontaneous participant beliefs.
+- Allow explicitly labeled complete-sentence reconstruction alongside exact fragments and provenance, not silent quote rewriting.
+- Organize multiple scenarios with multiple themes/subthemes; distinguish thematic segmentation from participant personas.
+### Added
+- Specific uncertainty queue, complete source-coverage requirements, synthetic short-answer examples, and full-review validation.
+- Native full-column Excel filter requirements and exported table-filter validation; document CSV limitations.
+
 ## [2.0.0] - 2026-10-12
 ### Changed
 - 完整分析主交付改為逐句／意義單位矩陣；每人×話題摘要僅作可選審閱輔助，不得替代原始編碼資料。

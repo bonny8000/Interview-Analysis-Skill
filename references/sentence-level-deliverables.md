@@ -1,5 +1,7 @@
 # 逐句編碼與分析矩陣
 
+搭配必讀 [dialogue-review-rules.md](dialogue-review-rules.md)：先全篇問答審閱、後分段編碼，不用舊選句或字數門檻建立分析母體。完整句重述／逐字欄位、情境分组、來源涵蓋及Excel篩選依該規則。
+
 ## 先辨識使用者要的粒度
 
 `participant | sentence_id | sentence | Initial Code | Sub Theme | Theme | Categories` 是逐句編碼表，不是受訪者摘要。交付同名欄位但每人只放一句總結，或將精選引句台帳改名，都不符合此契約。
@@ -21,10 +23,10 @@
 ## 意義單位與來源
 
 - 一列通常1–3句，範圍由完整意思而非換行、固定字數或標點決定。不能把單獨的「因為」「對」無脈絡當完整觀點。
-- 同一人相鄰片段可合成完整回答，保留所有來源回合；不能跨訪談者提問或將不同人的句子拼在一起。跨非相鄰來源應拆成不同單位。
+- 同一人相鄰片段可合成完整回答，保留所有來源回合。主持人的澄清插話可納入同一問答脈絡，但不可拼進受訪者逐字引句；非相鄰獨立回答應拆成不同單位。
 - 同一段有兩個可獨立理解的意思可以拆；同一個不可分的意思涉及兩概念則用多碼。不為增加樣本數而拆成碎片。
 - `sentence_id` 在 participant 範圍內穩定且唯一，建議 P01-S001。排序、換主題或新增碼不可重編既有ID。`source_turn` 保存原始回合／段號與行號，兩者不能混稱。
-- `sentence` 是保守清理後的原話；`raw_sentence` 保存去識別化的來源字串，非原始個資備份。只改確定的轉錄誤字，改動附理由。可額外提供 `sentence_summary` 作易讀轉述，但不加引號、不用來冒充逐字證據。
+- `sentence` 預設是保守清理後的原話。使用者要求完整可讀句時，可改為情境補足重述，必填 `sentence_type=contextual_reconstruction_not_verbatim` 並保持 `raw_sentence` 原文、來源、脈絡與補足說明。多段原文用 ` ⟪…⟫ ` 分隔。重述不是引句，不得加引號。逐字模式用 `sentence_type=verbatim`。
 - 錄音未核實時，依完整問答能清楚辨識者可標 `context_attributed`；實質話者仍不明者用 `needs_review`，不計入受訪者發現。
 
 ## 四張CSV
@@ -46,7 +48,7 @@
 
 前七欄逐字依序：`participant,sentence_id,sentence,Initial Code,Sub Theme,Theme,Categories`。
 
-追加來源、話者狀態與任務脈絡等欄位，但不要把它們插進前七欄。一列＝一個 coded 單位×一個 Initial Code；不把多碼塞在一格。相同 participant、sentence_id 重複時，sentence 必須一致。依 Theme → Sub Theme → Initial Code → participant → 原句順序排序。
+追加來源、話者狀態與任務脈絡等欄位，但不要把它們插進前七欄。一列＝一個 coded 單位×一個 Initial Code；不把多碼塞在一格。相同 participant、sentence_id 重複時，sentence 必須一致。多情境先依Scenario，再按Theme → Sub Theme → Initial Code → participant → 原句順序排序。跨情境另標，不強制歸屬。
 
 ### Codebook.csv
 

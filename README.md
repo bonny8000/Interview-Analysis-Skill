@@ -8,6 +8,14 @@ Output is written in Traditional Chinese (繁體中文). Input can be Mandarin t
 
 ## Primary deliverable: a sentence-level coding matrix
 
+### Full-dialogue review (v3)
+
+Read every participant response in its question-and-answer context before selecting report quotes. Never use a character-count threshold, an earlier curated excerpt set, or a blanket “needs review” label for unselected text. Short answers can be substantive; moderator-only instructions are context, not participant evidence. See [dialogue review rules](references/dialogue-review-rules.md).
+
+When complete readable sentences are requested, label `sentence` as `contextual_reconstruction_not_verbatim` and retain exact de-identified `raw_sentence`, source references, context and evidence type. Do not silently polish quotes. Group by Scenario → Theme → Sub Theme → Initial Code without forcing demographic segments. Deliver `Source Coverage.csv` and a specific `Review Queue.csv`; state unresolved transcription limits honestly.
+
+When filters are requested, deliver an `.xlsx` with native filters on every column of every data table, frozen headers and readable wrapping. CSVs cannot preserve those controls. Validate with `python scripts/validate_analysis.py <output-directory> --require-full-review --expected-participants P01 P02` (replace the example allowlist with the actual study). Add `--xlsx <workbook-path>` to check persisted full-width native table filters. These checks do not replace human/contextual judgment.
+
 Full analysis produces `RawData.csv`, `Combine Data.csv`, `Subtheme Summary.csv`, `Codebook.csv`, and `interview-analysis.md`. The main matrix begins with:
 
 `participant | sentence_id | sentence | Initial Code | Sub Theme | Theme | Categories`
